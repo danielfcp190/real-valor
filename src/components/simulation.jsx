@@ -65,6 +65,7 @@ export default function Simulation() {
         >
           Investment Date
         </Label>
+
         <InputDate
           type={dateFocus || info.date !== "" ? "date" : "text"}
           name="date"
@@ -114,6 +115,7 @@ export default function Simulation() {
         <DropDown
           placeholder="Crypto"
           onChange={(e) => setCrypto(e.target.value)}
+          required
         >
           <option value="BTC">Bitcoin</option>
           <option value="ETH">Ethereum</option>
