@@ -150,6 +150,9 @@ const DateFieldInput = styled.input`
   width: 100%;
   height: 100%;
   outline: none;
+  position: relative;
+  z-index: 1;
+  background-color: transparent;
 `;
 
 const Label = styled.label`

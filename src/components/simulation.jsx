@@ -66,7 +66,7 @@ export default function Simulation() {
           Investment Date
         </Label>
         <InputDate
-          type={dateFocus || info.date.length > 0 ? "date" : "text"}
+          type={dateFocus || info.date !== "" ? "date" : "text"}
           name="date"
           value={info.date}
           onChange={handleChange}
