@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect } from "react";
 import Home from "./components/home";
 import Simulation from "./components/simulation";
 import { ChakraProvider } from "@chakra-ui/react";

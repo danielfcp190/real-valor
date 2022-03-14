@@ -3,11 +3,15 @@ import Chart from "react-apexcharts";
 import { DataContext } from "../App";
 import { Select } from "@chakra-ui/react";
 import styled from "styled-components";
+import useWindowSize from "../hooks/useWindowSize";
+import questionMark from "./images/question-mark.png";
 
 export default function ChartComponent() {
   const { data, crypto, setCrypto, setDateRange } = useContext(DataContext);
+  const { width } = useWindowSize();
   const [portfolio, setPortfolio] = useState("cryptoPrice");
   const [dateFocus, setDateFocus] = useState(false);
+  const [infoHover, setInfoHover] = useState(false);
 
   let portfolio2k = 2000;
   let portfolio2kArray = [];
@@ -77,7 +81,7 @@ export default function ChartComponent() {
           }}
         >
           <option value="cryptoPrice">Crypto Price</option>
-          <option value="portfolio2k">R$ 2000.00</option>
+          <option value="portfolio2k">R$ 2,000.00</option>
           <option value="portfolio10k">R$ 10,000.00</option>
         </SelectField>
         <DateField>
@@ -85,7 +89,13 @@ export default function ChartComponent() {
 
           <DateFieldInput
             name="date"
-            type={!dateFocus ? "text" : "date"}
+            type={!dateFocus || width < 1024 ? "text" : "date"}
+            placeholder={dateFocus && width < 1024 ? "mm/dd/yyyy" : null}
+            pattern={
+              dateFocus && width < 1024
+                ? "(^(((0[1-9]|1[0-9]|2[0-8])[/](0[1-9]|1[012]))|((29|30|31)[/](0[13578]|1[02]))|((29|30)[/](0[4,6,9]|11)))[/](19|[2-9][0-9])dd$)|(^29[/]02[/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)"
+                : null
+            }
             onChange={(e) =>
               setDateRange(
                 Math.floor(
@@ -106,6 +116,29 @@ export default function ChartComponent() {
         </Subtitle>
         <LineChart options={options} series={series} type="line" height={400} />
       </ChartWrapper>
+
+      <img
+        src={questionMark}
+        alt="question mark"
+        width={50}
+        height={50}
+        onMouseEnter={() => setInfoHover(!infoHover)}
+        onMouseLeave={() => setInfoHover(!infoHover)}
+      />
+      {infoHover && (
+        <HelpText>
+          This application aims to help investors analyze the profitability of
+          the top 5 cryptocurrencies based on their history.
+          <br /> The investor can choose the graphical analysis ("chart" route),
+          in which he chooses the cryptocurrency, the initial value of the
+          portfolio (R$ 2000 or R$ 10,000) or price of the currency and the
+          initial date of the investment.
+          <br /> The inline chart automatically updates according to your
+          choices. <br /> The investor can also choose to simulate an investment
+          ("Simulation" route), in which he informs the date the investment was
+          made, the initial amount and the chosen currency.
+        </HelpText>
+      )}
     </Container>
   );
 }
@@ -116,6 +149,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   font-family: "Montserrat", sans-serif;
+  @media (max-width: 425px) {
+    padding: 2rem 1rem;
+  }
+`;
+
+const HelpText = styled.div`
+  margin-top: 1rem;
 `;
 const SelectWrapper = styled.div`
   max-width: 35rem;
@@ -163,7 +203,7 @@ const Label = styled.label`
 const SelectField = styled(Select)``;
 
 const ChartWrapper = styled.div`
-  margin-top: 2rem;
+  margin: 1rem 0;
   width: auto;
   position: relative;
   overflow: auto;
