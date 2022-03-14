@@ -125,22 +125,20 @@ export default function ChartComponent() {
         onMouseEnter={() => setInfoHover(!infoHover)}
         onMouseLeave={() => setInfoHover(!infoHover)}
       />
-      {infoHover ||
-        width <
-          1024(
-            <HelpText>
-              This application aims to help investors analyze the profitability
-              of the top 5 cryptocurrencies based on their history.
-              <br /> The investor can choose the graphical analysis ("chart"
-              route), in which he chooses the cryptocurrency, the initial value
-              of the portfolio (R$ 2000 or R$ 10,000) or price of the currency
-              and the initial date of the investment.
-              <br /> The inline chart automatically updates according to your
-              choices. <br /> The investor can also choose to simulate an
-              investment ("Simulation" route), in which he informs the date the
-              investment was made, the initial amount and the chosen currency.
-            </HelpText>
-          )}
+      {infoHover || width < 1024 ? (
+        <HelpText>
+          This application aims to help investors analyze the profitability of
+          the top 5 cryptocurrencies based on their history.
+          <br /> The investor can choose the graphical analysis ("chart" route),
+          in which he chooses the cryptocurrency, the initial value of the
+          portfolio (R$ 2000 or R$ 10,000) or price of the currency and the
+          initial date of the investment.
+          <br /> The inline chart automatically updates according to your
+          choices. <br /> The investor can also choose to simulate an investment
+          ("Simulation" route), in which he informs the date the investment was
+          made, the initial amount and the chosen currency.
+        </HelpText>
+      ) : null}
     </Container>
   );
 }
